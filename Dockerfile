@@ -9,8 +9,11 @@ RUN apt-get update && \
     mkdir -p /var/run/sshd && \
 # Install JDK 11
     apt-get install -qy default-jdk && \
-# Install maven
-    apt-get install -qy maven && \
+# Install nvm and node.js
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash && \
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm && \
+    nvm install 16.13.0 && nvm use 16.13.0
 # Cleanup old packages
     apt-get -qy autoremove && \
 # Add user jenkins to the image
